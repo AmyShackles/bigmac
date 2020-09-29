@@ -38,4 +38,14 @@ describe('index.js', () => {
 
         })
     })
+    describe('GET /local', () => {
+        it('should return United States if on localhost', async () => {
+            const res = await request(server).get('/local');
+            expect(res.body).to.include({Country: 'United States'})
+        });
+        it('should query a different ip address if an IP address is set', async () => {
+            const res = await request(server).get('/local').set('x-real-ip', '52.95.128.181');
+            expect(res.body).to.include({Country: "Australia"})
+        })
+    })
 })
